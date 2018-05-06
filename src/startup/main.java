@@ -14,7 +14,7 @@ public class main {
         Controller contr = new Controller(dbHandler);
         View view = new View(contr);
         try{
-            view.testProgram();
+            view.runProgram();
         } catch (DBUnavailableException ex){
             System.out.println("DB error");
         } catch (NoSuchCustomerException ex){

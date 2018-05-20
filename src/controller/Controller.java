@@ -50,6 +50,7 @@ public class Controller {
             sale.addItem(itemID, quantity);
             return true;
         } catch (NoSuchItemException ex) {
+            System.out.println("Item " + itemID + " not found");
             return false;
         }
 

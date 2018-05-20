@@ -19,17 +19,31 @@ public class View {
         contr.addSaleObserver(new TotalRevenueView());
     }
 
-    public void runProgram() throws NoSuchCustomerException, InvalidArgumentException {
+    public void runProgram(){
         contr.initiateSale();
-        System.out.println("Adding 2 valid items: "  + contr.registerItem(42, 2));
+        try{
+            System.out.println("Adding 2 valid items: "  + contr.registerItem(42, 2));
+        } catch (InvalidArgumentException ex){
+            System.out.println("Invalid quantity");
+        }
         runningTotal = contr.updateSale().getRunningTotal();
         System.out.println("Running Total: " + runningTotal);
-        System.out.println("Adding an invalid item: " + contr.registerItem(13, 1));
+        try{
+            System.out.println("Adding an invalid item: " + contr.registerItem(13, 1));
+        } catch (InvalidArgumentException ex){
+            System.out.println("Invalid quantity");
+        }
+
         runningTotal= contr.updateSale().getRunningTotal();
         totalPrice = contr.completeSale();
         System.out.println("Total price including tax: " + totalPrice);
-        totalPrice = contr.registerDisount(0);
-        System.out.println("Total price after discount: " + totalPrice);
+        try {
+            totalPrice = contr.registerDisount(0);
+            System.out.println("Total price after discount: " + totalPrice);
+        } catch (NoSuchCustomerException ex) {
+            System.out.println(ex.getMessage());
+        }
+
         try{
             double change = contr.registerPayment(45);
             System.out.println("Change: " + change);

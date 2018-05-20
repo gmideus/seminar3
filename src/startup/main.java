@@ -15,12 +15,8 @@ public class main {
         View view = new View(contr);
         try{
             view.runProgram();
-        } catch (DBUnavailableException ex){
+        } catch (DBUnavailableException ex) {
             System.out.println("DB error");
-        } catch (NoSuchCustomerException ex){
-            System.out.println("Invalid Customer ID");
-        } catch (InvalidArgumentException ex){
-            System.out.println("Invalid argument");
         }
 
     }

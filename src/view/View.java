@@ -16,9 +16,10 @@ public class View {
 
     public View(Controller contr){
         this.contr = contr;
+        contr.addSaleObserver(new TotalRevenueView());
     }
 
-    public void runProgram() throws DBUnavailableException, NoSuchCustomerException, InvalidArgumentException {
+    public void runProgram() throws NoSuchCustomerException, InvalidArgumentException {
         contr.initiateSale();
         System.out.println("Adding 2 valid items: "  + contr.registerItem(42, 2));
         runningTotal = contr.updateSale().getRunningTotal();
@@ -32,9 +33,11 @@ public class View {
         try{
             double change = contr.registerPayment(45);
             System.out.println("Change: " + change);
+
         } catch (InsufficientPaymentException ex){
             System.out.println("Insufficient payment");
         }
+
 
 
     }

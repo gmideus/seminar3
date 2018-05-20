@@ -8,6 +8,9 @@ import integration.NoSuchItemException;
 import model.InsufficientPaymentException;
 import model.InvalidArgumentException;
 import model.Sale;
+import model.SaleObserver;
+
+import java.util.ArrayList;
 
 /**
  * A controller used by the user interface to communicate with the rest of the program.
@@ -15,6 +18,7 @@ import model.Sale;
 public class Controller {
     private Sale sale;
     private DBHandler dbHandler;
+    private ArrayList<SaleObserver> saleObservers = new ArrayList<>();
 
     /**
      * Creates a new controller
@@ -29,6 +33,7 @@ public class Controller {
      */
     public void initiateSale(){
         this.sale = new Sale(dbHandler);
+        this.sale.addSaleObservers(saleObservers);
     }
 
     /**
@@ -39,7 +44,7 @@ public class Controller {
      * @throws DBUnavailableException Exceåption if the database could not be reached.
      * @throws InvalidArgumentException Esception if the quantity is invalid.
      */
-    public boolean registerItem(int itemID, int quantity) throws DBUnavailableException, InvalidArgumentException {
+    public boolean registerItem(int itemID, int quantity) throws  InvalidArgumentException {
 
         try {
             sale.addItem(itemID, quantity);
@@ -73,7 +78,7 @@ public class Controller {
      * @throws DBUnavailableException Exception if the database is unavailable.
      * @throws NoSuchCustomerException Exception if the customer ID cannot be found in the database.
      */
-    public double registerDisount(int customerID) throws DBUnavailableException, NoSuchCustomerException {
+    public double registerDisount(int customerID) throws NoSuchCustomerException {
         return sale.addDiscount(customerID);
     }
 
@@ -85,5 +90,13 @@ public class Controller {
      */
     public double registerPayment(double payment) throws InsufficientPaymentException {
         return sale.registerPayment(payment);
+    }
+
+    /**
+     * Adds an observer used to notify the view about sale information
+     * @param observer the observer to be added to the controller.
+     */
+    public void addSaleObserver(SaleObserver observer){
+        saleObservers.add(observer);
     }
 }

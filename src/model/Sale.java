@@ -6,6 +6,8 @@ import DTO.SaleDTO;
 import DTO.SaleEntryDTO;
 import integration.*;
 
+import java.util.ArrayList;
+
 /**
  * Represents a sale of one or several items.
  */
@@ -21,6 +23,7 @@ public class Sale {
     private double totalPrice;
     private double paidAmount;
     private double change;
+    private ArrayList<SaleObserver> saleObservers = new ArrayList<>();
 
     /**
      * Creates a new instance representing a new sale.
@@ -45,7 +48,7 @@ public class Sale {
      * @throws InvalidArgumentException Throws exception if an invalid quantity is given.
      */
 
-    public void addItem(int itemID, int quantity) throws NoSuchItemException, DBUnavailableException, InvalidArgumentException {
+    public void addItem(int itemID, int quantity) throws NoSuchItemException, InvalidArgumentException {
         if(quantity < MIN_QUANTITY){
             throw new InvalidArgumentException();
         }
@@ -83,7 +86,7 @@ public class Sale {
      * @throws DBUnavailableException Throws exception if the database can not be reached.
      * @throws NoSuchCustomerException Throws exception if the customer ID cannot be found in the database.
      */
-    public double addDiscount(int customerID)throws DBUnavailableException, NoSuchCustomerException {
+    public double addDiscount(int customerID)throws NoSuchCustomerException {
         CustomerDTO customer = dbHandler.getCustomer(customerID);
         totalPrice = totalPrice*customer.getDiscount();
         return totalPrice;
@@ -104,7 +107,22 @@ public class Sale {
         SaleDTO saleInfo = this.getSaleInfo();
         dbHandler.registerSale(saleInfo);
         printer.print(saleInfo);
+        notifyObservers();
         return change;
+    }
+
+    /**
+     * Adds one or more observers to the sale. These observers may be used to notify the view about changes to the sale object.
+     * @param observers A list of observers to be added.
+     */
+    public void addSaleObservers(ArrayList<SaleObserver> observers){
+        saleObservers.addAll(observers);
+    }
+
+    private void notifyObservers(){
+        for(SaleObserver observer: saleObservers){
+            observer.newSale(getSaleInfo());
+        }
     }
 
 }

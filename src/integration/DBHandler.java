@@ -33,7 +33,7 @@ public class DBHandler {
                     return new ItemDTO(lineEntries.get(1), entryID, Double.parseDouble(lineEntries.get(2)), lineEntries.get(3));
                 }
             }
-            throw new NoSuchItemException("Item " + itemID + " could not be found in the database");
+            throw new NoSuchItemException("Item " + itemID + " could not be found in the database", itemID);
         } catch (IOException ex) {
             System.out.println("Admin log: Failure to access" + ITEM_DB_NAME + " database");
             throw new DBUnavailableException("Database " + ITEM_DB_NAME + " could not be accessed", ex);

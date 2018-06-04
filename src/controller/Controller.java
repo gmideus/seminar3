@@ -44,15 +44,9 @@ public class Controller {
      * @throws DBUnavailableException Exceåption if the database could not be reached.
      * @throws InvalidArgumentException Esception if the quantity is invalid.
      */
-    public boolean registerItem(int itemID, int quantity) throws  InvalidArgumentException {
+    public void registerItem(int itemID, int quantity) throws  InvalidArgumentException, NoSuchItemException{
 
-        try {
-            sale.addItem(itemID, quantity);
-            return true;
-        } catch (NoSuchItemException ex) {
-            System.out.println("Item " + itemID + " not found");
-            return false;
-        }
+        sale.addItem(itemID, quantity);
 
     }
 

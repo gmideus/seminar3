@@ -3,6 +3,7 @@ package view;
 import controller.Controller;
 import integration.DBUnavailableException;
 import integration.NoSuchCustomerException;
+import integration.NoSuchItemException;
 import model.InsufficientPaymentException;
 import model.InvalidArgumentException;
 
@@ -22,16 +23,24 @@ public class View {
     public void runProgram(){
         contr.initiateSale();
         try{
-            System.out.println("Adding 2 valid items: "  + contr.registerItem(42, 2));
+            System.out.println("Adding 2 valid items:");
+            contr.registerItem(42, 2);
+            System.out.println("Done");
         } catch (InvalidArgumentException ex){
             System.out.println("Invalid quantity");
+        } catch (NoSuchItemException ex){
+            System.out.println("Item " + ex.getItemID() + " could not be found.");
         }
         runningTotal = contr.updateSale().getRunningTotal();
         System.out.println("Running Total: " + runningTotal);
         try{
-            System.out.println("Adding an invalid item: " + contr.registerItem(13, 1));
+            System.out.println("Adding an invalid item:");
+            contr.registerItem(13, 1);
+            System.out.println("Done");
         } catch (InvalidArgumentException ex){
             System.out.println("Invalid quantity");
+        } catch (NoSuchItemException ex){
+            System.out.println("Item " + ex.getItemID() + " could not be found.");
         }
 
         runningTotal= contr.updateSale().getRunningTotal();

@@ -27,7 +27,7 @@ public class View {
         runningTotal= contr.updateSale().getRunningTotal();
         totalPrice = contr.completeSale();
         System.out.println("Total price including tax: " + totalPrice);
-        totalPrice = contr.registerDisount(0);
+        totalPrice = contr.registerDiscount(0);
         System.out.println("Total price after discount: " + totalPrice);
         try{
             double change = contr.registerPayment(45);

@@ -73,7 +73,7 @@ public class Controller {
      * @throws DBUnavailableException Exception if the database is unavailable.
      * @throws NoSuchCustomerException Exception if the customer ID cannot be found in the database.
      */
-    public double registerDisount(int customerID) throws DBUnavailableException, NoSuchCustomerException {
+    public double registerDiscount(int customerID) throws DBUnavailableException, NoSuchCustomerException {
         return sale.addDiscount(customerID);
     }
 

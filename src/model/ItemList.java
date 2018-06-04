@@ -24,7 +24,10 @@ public class ItemList {
      * @param item An ItemDTO representing the item that should be added
      * @param quantity The quantity of the item that should be added.
      */
-    void addItem(ItemDTO item, int quantity){
+    void addItem(ItemDTO item, int quantity) throws InvalidArgumentException{
+        if(quantity < 0){
+            throw new InvalidArgumentException();
+        }
         ListEntry entry = this.getEntry(item);
         if(entry != null){
             entry.increaseQuantity(quantity);

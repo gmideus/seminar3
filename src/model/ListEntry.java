@@ -23,7 +23,10 @@ public class ListEntry {
      * Increases the quantity of a specified item
      * @param quantity the quantity to be added.
      */
-    public void increaseQuantity(int quantity){
+    public void increaseQuantity(int quantity) throws InvalidArgumentException{
+        if(quantity < 0){
+            throw new InvalidArgumentException();
+        }
         this.quantity += quantity;
     }
 
